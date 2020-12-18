@@ -70,7 +70,7 @@ public class Database {
     }
 
     public void stopClock() throws IOException {
-        bfw.write(LocalDateTime.now().getDayOfYear() + ", " + LocalDateTime.now().getMonth() + "/" + LocalDateTime.now().getDayOfMonth() + "/" + LocalDateTime.now().getYear() + ", " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute() + " |");
+        bfw.write(LocalDateTime.now().getDayOfYear() + ", " + LocalDateTime.now().getMonth() + "/" + LocalDateTime.now().getDayOfMonth() + "/" + LocalDateTime.now().getYear() + ", " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute());
         bfw.flush();
         bfw.newLine();
         bfw.flush();
@@ -114,17 +114,41 @@ public class Database {
         updateReadersAndWriters();
 
         ArrayList<String> frameLines = new ArrayList<>();
+
         String lineOne = bfr.readLine();
         String lineTwo = bfr.readLine();
+
         while (lineOne != null)    {
-            ChronoUnit.MINUTES.between();
+            int totalMinutes = 0;
 
-            int lineOneDays = Integer.parseInt(lineOne.substring(0, lineOne.indexOf(", ")));
-            int lineTwoDays = Integer.parseInt(lineTwo.substring(0, lineOne.indexOf(", ")));
+            int dayOne = Integer.parseInt(lineOne.substring(0, lineOne.indexOf(", ")));
+            int dayTwo = Integer.parseInt(lineTwo.substring(0, lineTwo.indexOf(", ")));
 
-            if (lineOneDays != lineTwoDays) {
-                lineTwoDays
+            int timeOne = Integer.parseInt(lineOne.substring(lineOne.lastIndexOf(", ") + 2, lineOne.indexOf(":")) + lineOne.substring(lineOne.indexOf(":") + 1));
+            int timeTwo = Integer.parseInt(lineTwo.substring(lineTwo.lastIndexOf(", ") + 2, lineTwo.indexOf(":")) + lineTwo.substring(lineTwo.indexOf(":") + 1));
+
+            int daysBetween = -1;
+            if (dayOne != dayTwo)   {
+                daysBetween = dayTwo - dayOne;
             }
+
+            //CONVERT TO MINUTES!!
+
+            if (daysBetween != -1)  {
+                if (timeTwo > timeOne)  {
+                    totalMinutes += daysBetween * 1440;
+                    totalMinutes += timeTwo - timeOne;
+                } else  {
+                    totalMinutes += (daysBetween - 1) * 1440;
+                    totalMinutes += 1440 - timeOne;
+                    totalMinutes += timeTwo;
+                }
+            }
+
+            System.out.println();
+
+            break;
         }
+        return frameLines;
     }
 }

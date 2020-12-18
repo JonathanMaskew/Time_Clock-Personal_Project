@@ -153,6 +153,7 @@ public class TimeClock {
         for (int i = 0; i < hours.size(); i++) {
             centerContent.add(new JLabel(hours.get(i)));
         }
+        database.calculateTimes();
 
         Container northContent = new Container();
         northContent.setLayout(new FlowLayout());
