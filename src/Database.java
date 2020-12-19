@@ -1,7 +1,7 @@
 import java.io.*;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Database {
     private static File file;
@@ -27,14 +27,7 @@ public class Database {
         bfr = new BufferedReader(new FileReader(file));
         bfw = new BufferedWriter(new FileWriter(file, true));
 
-        ArrayList<String> hours = new ArrayList<String>();
-        String line = bfr.readLine();
-        while (line != null)    {
-            hours.add(line);
-            line = bfr.readLine();
-        }
-
-        return hours;
+        return calculateTimes();
     }
 
     private static void updateReadersAndWriters() throws IOException {
@@ -119,35 +112,56 @@ public class Database {
         String lineTwo = bfr.readLine();
 
         while (lineOne != null)    {
+            String completeLine = "";
+
             int totalMinutes = 0;
 
             int dayOne = Integer.parseInt(lineOne.substring(0, lineOne.indexOf(", ")));
             int dayTwo = Integer.parseInt(lineTwo.substring(0, lineTwo.indexOf(", ")));
 
-            int timeOne = Integer.parseInt(lineOne.substring(lineOne.lastIndexOf(", ") + 2, lineOne.indexOf(":")) + lineOne.substring(lineOne.indexOf(":") + 1));
-            int timeTwo = Integer.parseInt(lineTwo.substring(lineTwo.lastIndexOf(", ") + 2, lineTwo.indexOf(":")) + lineTwo.substring(lineTwo.indexOf(":") + 1));
+            int timeOneInMin = Integer.parseInt(lineOne.substring(lineOne.lastIndexOf(", ") + 2, lineOne.indexOf(":"))) * 60 + Integer.parseInt(lineOne.substring(lineOne.indexOf(":") + 1));
+            int timeTwoInMin = Integer.parseInt(lineTwo.substring(lineTwo.lastIndexOf(", ") + 2, lineTwo.indexOf(":"))) * 60 + Integer.parseInt(lineTwo.substring(lineTwo.indexOf(":") + 1));
+
+            String monthOne = lineOne.substring(lineOne.indexOf(", ") + 2, lineOne.indexOf("/"));
+            String dateOne = lineOne.substring(lineOne.indexOf("/") + 1, lineOne.lastIndexOf("/"));
+            String yearOne = lineOne.substring(lineOne.lastIndexOf("/") + 1, lineOne.lastIndexOf(", "));
+
+            String monthTwo = lineTwo.substring(lineTwo.indexOf(", ") + 2, lineTwo.indexOf("/"));
+            String dateTwo = lineTwo.substring(lineTwo.indexOf("/") + 1, lineTwo.lastIndexOf("/"));
+            String yearTwo = lineTwo.substring(lineTwo.lastIndexOf("/") + 1, lineTwo.lastIndexOf(", "));
 
             int daysBetween = -1;
             if (dayOne != dayTwo)   {
                 daysBetween = dayTwo - dayOne;
             }
 
-            //CONVERT TO MINUTES!!
-
             if (daysBetween != -1)  {
-                if (timeTwo > timeOne)  {
+                if (timeTwoInMin > timeOneInMin)  {
                     totalMinutes += daysBetween * 1440;
-                    totalMinutes += timeTwo - timeOne;
+                    totalMinutes += timeTwoInMin - timeOneInMin;
                 } else  {
                     totalMinutes += (daysBetween - 1) * 1440;
-                    totalMinutes += 1440 - timeOne;
-                    totalMinutes += timeTwo;
+                    totalMinutes += 1440 - timeOneInMin;
+                    totalMinutes += timeTwoInMin;
                 }
             }
 
-            System.out.println();
+            completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + "timeone " + "to\n" +
+                    monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + "timetwo\n" +
+                    "totaling " + totalMinutes;
 
-            break;
+            frameLines.add(completeLine);
+
+            lineOne = bfr.readLine();
+            lineTwo = bfr.readLine();
+
+            System.out.println(monthOne.substring(0, 3) + " and " + dateOne + " and " + yearOne);
+            System.out.println(monthTwo.substring(0, 3) + " and " + dateTwo + " and " + yearTwo);
+            System.out.println(dayOne + " and " + dayTwo);
+            System.out.println("Days Between: " + daysBetween);
+            System.out.println(timeOneInMin + " and " + timeTwoInMin);
+            System.out.println("Total Min: " + totalMinutes);
+            System.out.println(completeLine);
         }
         return frameLines;
     }

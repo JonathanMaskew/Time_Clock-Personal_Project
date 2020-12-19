@@ -149,11 +149,11 @@ public class TimeClock {
 
         Container centerContent = new Container();
         centerContent.setLayout(new GridLayout(0, 1));
-        ArrayList<String> hours = database.getInformation(person.getUsername() + ".bin");
-        for (int i = 0; i < hours.size(); i++) {
-            centerContent.add(new JLabel(hours.get(i)));
+        ArrayList<String> lines = database.getInformation(person.getUsername() + ".bin");
+        for (int i = 0; i < lines.size(); i++) {
+            centerContent.add(new JLabel(lines.get(i)));
         }
-        database.calculateTimes();
+        mainFrame.add(centerContent, BorderLayout.CENTER);
 
         Container northContent = new Container();
         northContent.setLayout(new FlowLayout());
