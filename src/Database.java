@@ -146,9 +146,16 @@ public class Database {
                 }
             }
 
-            completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + "timeone " + "to\n" +
-                    monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + "timetwo\n" +
-                    "totaling " + totalMinutes;
+            int finalTimeOneHours = timeOneInMin / 60;
+            int finalTimeOneMins = timeOneInMin % 60;
+
+            int finalTimeTwoHours = timeTwoInMin / 60;
+            int finalTimeTwoMins = timeTwoInMin % 60;
+
+            int finalHours = totalMinutes / 60;
+            int finalMinutes = totalMinutes % 60;
+
+            completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + " totaling " + finalHours + " hours and " + finalMinutes + " minutes.";
 
             frameLines.add(completeLine);
 

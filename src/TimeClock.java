@@ -151,9 +151,13 @@ public class TimeClock {
         centerContent.setLayout(new GridLayout(0, 1));
         ArrayList<String> lines = database.getInformation(person.getUsername() + ".bin");
         for (int i = 0; i < lines.size(); i++) {
-            centerContent.add(new JLabel(lines.get(i)));
+            JLabel label = new JLabel(lines.get(i));
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            centerContent.add(label);
         }
-        mainFrame.add(centerContent, BorderLayout.CENTER);
+
+        JScrollPane centerContentScroll = new JScrollPane(centerContent);
+        mainFrame.add(centerContentScroll, BorderLayout.CENTER);
 
         Container northContent = new Container();
         northContent.setLayout(new FlowLayout());
@@ -188,6 +192,8 @@ public class TimeClock {
                     } else  {
                         toggleButton.setText("Start Clock");
                         database.stopClock();
+                        centerContent.add(new JLabel("Clock Running"), 0);
+                        mainFrame.repaint();
                     }
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
