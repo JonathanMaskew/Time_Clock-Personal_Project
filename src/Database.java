@@ -144,13 +144,23 @@ public class Database {
                     totalMinutes += 1440 - timeOneInMin;
                     totalMinutes += timeTwoInMin;
                 }
+            } else  {
+                totalMinutes += timeTwoInMin - timeOneInMin;
             }
 
             int finalTimeOneHours = timeOneInMin / 60;
-            int finalTimeOneMins = timeOneInMin % 60;
+            String finalTimeOneMins = Integer.toString(timeOneInMin % 60);
+
+            if (finalTimeOneMins.length() == 1)   {
+                finalTimeOneMins = "0" + finalTimeOneMins;
+            }
 
             int finalTimeTwoHours = timeTwoInMin / 60;
-            int finalTimeTwoMins = timeTwoInMin % 60;
+            String finalTimeTwoMins = Integer.toString(timeTwoInMin % 60);
+
+            if (finalTimeTwoMins.length() == 1)   {
+                finalTimeTwoMins = "0" + finalTimeTwoMins;
+            }
 
             int finalHours = totalMinutes / 60;
             int finalMinutes = totalMinutes % 60;

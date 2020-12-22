@@ -161,7 +161,7 @@ public class TimeClock {
 
         Container northContent = new Container();
         northContent.setLayout(new FlowLayout());
-        JLabel northLabel = new JLabel("Hello, " + person.getName().substring(0, person.getName().indexOf(" ")) + ". Ready to clock in?");
+        JLabel northLabel = new JLabel();
         northContent.add(northLabel);
         mainFrame.add(northContent, BorderLayout.NORTH);
 
@@ -174,8 +174,10 @@ public class TimeClock {
         boolean running = database.isRunning();
         if (!running) {
             toggleButton.setText("Start Clock");
+            northLabel.setText("Hello, " + person.getName().substring(0, person.getName().indexOf(" ")) + ". Ready to clock in?");
         } else  {
             toggleButton.setText("Stop Clock");
+            northLabel.setText("Hello, " + person.getName().substring(0, person.getName().indexOf(" ")) + ". Your clock is currently running.");
         }
         southContent.add(toggleButton);
         mainFrame.add(southContent, BorderLayout.SOUTH);
@@ -189,11 +191,16 @@ public class TimeClock {
                     boolean running = database.isRunning();
                     if (!running) {
                         database.startClock();
+                        JOptionPane.showMessageDialog(null, "Your clock has been started!\nYou may close the program and return at any time to stop your clock.", "Clock Started", JOptionPane.INFORMATION_MESSAGE);
                         toggleButton.setText("Stop Clock");
                     } else  {
                         toggleButton.setText("Start Clock");
                         database.stopClock();
-                        northLabel.setText("Hello, " + person.getName().substring(0, person.getName().indexOf(" ")) + "Your clock is currently running.");
+                        JOptionPane.showMessageDialog(null, "Your clock has been stopped!", "Clock Started", JOptionPane.INFORMATION_MESSAGE);
+                        northLabel.setText("Hello, " + person.getName().substring(0, person.getName().indexOf(" ")) + ". Your clock is currently running.");
+                        northLabel.repaint();
+                        mainFrame.dispose();
+                        showMainFrame();
                     }
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
