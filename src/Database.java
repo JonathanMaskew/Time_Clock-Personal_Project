@@ -143,15 +143,21 @@ public class Database {
             }
 
             int finalTimeOneHours = timeOneInMin / 60;
-            String finalTimeOneMins = Integer.toString(timeOneInMin % 60);
+            if (finalTimeOneHours > 12) {
+                finalTimeOneHours = finalTimeOneHours - 12;
+            }
 
+            String finalTimeOneMins = Integer.toString(timeOneInMin % 60);
             if (finalTimeOneMins.length() == 1)   {
                 finalTimeOneMins = "0" + finalTimeOneMins;
             }
 
             int finalTimeTwoHours = timeTwoInMin / 60;
-            String finalTimeTwoMins = Integer.toString(timeTwoInMin % 60);
+            if (finalTimeTwoHours > 12) {
+                finalTimeTwoHours = finalTimeTwoHours - 12;
+            }
 
+            String finalTimeTwoMins = Integer.toString(timeTwoInMin % 60);
             if (finalTimeTwoMins.length() == 1)   {
                 finalTimeTwoMins = "0" + finalTimeTwoMins;
             }
