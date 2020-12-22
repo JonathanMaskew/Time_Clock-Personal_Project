@@ -44,7 +44,7 @@ public class Database {
         String line = bfr.readLine();
         int totalLines = 0;
         String runningSince = "";
-        String runningDate = ";";
+        String runningDate = "";
 
         while (line != null)    {
             totalLines++;
@@ -57,8 +57,8 @@ public class Database {
                 runningSince = runningDate + Integer.toString(Integer.parseInt(runningSince.substring(0, runningSince.indexOf(":"))) - 12) + ":" + runningSince.substring(runningSince.indexOf(":") + 1) + "am";
             }
 
-            if (runningSince.substring(runningSince.indexOf(":") + 1).length() == 1)    {
-                runningSince = runningDate + runningSince.substring(0, runningSince.indexOf(":")) + ":0" + runningSince.substring(runningSince.indexOf(":") + 2);
+            if (runningSince.substring(runningSince.indexOf(":") + 1, runningSince.indexOf("m") - 1).length() == 1)    {
+                runningSince = runningSince.substring(0, runningSince.indexOf(":")) + ":0" + runningSince.substring(runningSince.indexOf(":") + 1);
             }
 
             line = bfr.readLine();
