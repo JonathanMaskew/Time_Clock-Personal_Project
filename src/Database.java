@@ -53,6 +53,8 @@ public class Database {
             runningSince = line.substring(line.lastIndexOf(", ") + 2);
             if (Integer.parseInt(runningSince.substring(0, runningSince.indexOf(":"))) > 12)   {
                 runningSince = runningDate + Integer.toString(Integer.parseInt(runningSince.substring(0, runningSince.indexOf(":"))) - 12) + ":" + runningSince.substring(runningSince.indexOf(":") + 1) + "pm";
+            } else if (Integer.parseInt(runningSince.substring(0, runningSince.indexOf(":"))) == 12)    {
+                runningSince = runningDate + Integer.toString(Integer.parseInt(runningSince.substring(0, runningSince.indexOf(":"))) - 12) + ":" + runningSince.substring(runningSince.indexOf(":") + 1) + "pm";
             } else  {
                 runningSince = runningDate + Integer.toString(Integer.parseInt(runningSince.substring(0, runningSince.indexOf(":"))) - 12) + ":" + runningSince.substring(runningSince.indexOf(":") + 1) + "am";
             }
@@ -125,8 +127,10 @@ public class Database {
         accountBfw = new BufferedWriter(new FileWriter(accountFile, true));
 
         String line = accountBfr.readLine();
-        if (line.substring(line.indexOf(", ") + 2, line.lastIndexOf(", ")).equals(username))    {
-            return true;
+        if (line != null) {
+            if (line.substring(line.indexOf(", ") + 2, line.lastIndexOf(", ")).equals(username)) {
+                return true;
+            }
         }
         return false;
     }
@@ -181,6 +185,8 @@ public class Database {
             if (finalTimeOneHours > 12) {
                 finalTimeOneHours = finalTimeOneHours - 12;
                 timeOnePm = true;
+            } else if (finalTimeOneHours == 12) {
+                timeOnePm = true;
             }
 
             String finalTimeOneMins = Integer.toString(timeOneInMin % 60);
@@ -191,6 +197,8 @@ public class Database {
             int finalTimeTwoHours = timeTwoInMin / 60;
             if (finalTimeTwoHours > 12) {
                 finalTimeTwoHours = finalTimeTwoHours - 12;
+                timeTwoPm = true;
+            } else if (finalTimeTwoHours == 12) {
                 timeTwoPm = true;
             }
 
