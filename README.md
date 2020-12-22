@@ -1,7 +1,7 @@
 # Time Clock - Personal Project
 
 ## General Overview
-This simple time clock program allows a user to log in to their account to then view their time clocked in, clock in, or clock out if still clocked in. The program writes the current time to a file, allowing a user to stop the program and come back later to stop the clock and still show accurate time clocked in. The program creates a new file for each user, making it easy to differentiate between users.
+This simple time clock program allows a user to log in to their account to view their time clocked in, clock in, or clock out if still clocked in. The program writes the current time to a file, allowing a user to stop the program and come back later to stop the clock and still show accurate time clocked in. The program creates a new file for each user, making it easy to differentiate between users.
 
 ### Purpose of Program
 The program is intended to allow a user to start what is essentially a stopwatch to track their time working. This is useful if an individual is paid based on time worked. Once a user stops the clock, it will display the total time they were working in hours and minutes.
