@@ -10,6 +10,10 @@ public class Database {
 
     private static ArrayList<Person> people;
 
+    private static File accountFile;
+    private static BufferedReader accountBfr;
+    private static BufferedWriter accountBfw;
+
     public Database()   {
         people = new ArrayList<>();
     }
@@ -21,7 +25,6 @@ public class Database {
 
     public ArrayList<String> getInformation(String filename) throws IOException {
         file = new File(filename);
-
         file.createNewFile();
 
         bfr = new BufferedReader(new FileReader(file));
@@ -46,8 +49,6 @@ public class Database {
             line = bfr.readLine();
         }
 
-        System.out.println(totalLines);
-
         if (totalLines % 2 == 0)    {
             return false;
         } else  {
@@ -70,9 +71,11 @@ public class Database {
     }
 
     public void saveToFile() throws IOException {
-        File accountFile = new File("accounts.bin");
-        BufferedReader accountBfr = new BufferedReader(new FileReader(accountFile));
-        BufferedWriter accountBfw = new BufferedWriter(new FileWriter(accountFile, true));
+        accountFile = new File("accounts.bin");
+        accountFile.createNewFile();
+
+        accountBfr = new BufferedReader(new FileReader(accountFile));
+        accountBfw = new BufferedWriter(new FileWriter(accountFile, true));
 
         for (int i = 0; i < people.size(); i++) {
             accountBfw.write(people.get(i).getName() + ", " + people.get(i).getUsername() + ", " + people.get(i).getPassword());
@@ -83,9 +86,11 @@ public class Database {
     }
 
     public Person userExists(String username, String password) throws IOException {
-        File accountFile = new File("accounts.bin");
-        BufferedReader accountBfr = new BufferedReader(new FileReader(accountFile));
-        BufferedWriter accountBfw = new BufferedWriter(new FileWriter(accountFile, true));
+        accountFile = new File("accounts.bin");
+        accountFile.createNewFile();
+
+        accountBfr = new BufferedReader(new FileReader(accountFile));
+        accountBfw = new BufferedWriter(new FileWriter(accountFile, true));
 
         String line = accountBfr.readLine();
         while (line != null)    {
@@ -95,6 +100,20 @@ public class Database {
             line = accountBfr.readLine();
         }
         return null;
+    }
+
+    public boolean usernameTaken(String username) throws IOException {
+        accountFile = new File("accounts.bin");
+        accountFile.createNewFile();
+
+        accountBfr = new BufferedReader(new FileReader(accountFile));
+        accountBfw = new BufferedWriter(new FileWriter(accountFile, true));
+
+        String line = accountBfr.readLine();
+        if (line.substring(line.indexOf(", ") + 2, line.lastIndexOf(", ")).equals(username))    {
+            return true;
+        }
+        return false;
     }
 
     public ArrayList<String> calculateTimes() throws IOException {
@@ -165,23 +184,29 @@ public class Database {
             int finalHours = totalMinutes / 60;
             int finalMinutes = totalMinutes % 60;
 
+            if (dateOne.equals(dateTwo))    {
+                completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " from " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + finalTimeTwoHours + ":" + finalTimeTwoMins;
+            } else  {
+                completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins;
+            }
+
             if (finalHours == 0 && finalMinutes != 0) {
                 if (finalMinutes != 1) {
-                    completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + " totaling " + finalMinutes + " minutes.";
+                    completeLine = completeLine + " totaling " + finalMinutes + " minutes.";
                 } else  {
-                    completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + " totaling " + finalMinutes + " minute.";
+                    completeLine = completeLine + " totaling " + finalMinutes + " minute.";
                 }
             } else if (finalHours != 0 && finalMinutes == 0)   {
-                completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + " totaling " + finalHours + " hours.";
+                completeLine = completeLine + " totaling " + finalHours + " hours.";
             } else if (finalHours != 0 && finalMinutes != 0)  {
                 if (finalMinutes != 1) {
-                    completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + " totaling " + finalHours + " hours and " + finalMinutes + " minutes.";
+                    completeLine = completeLine + " totaling " + finalHours + " hours and " + finalMinutes + " minutes.";
                 } else  {
-                    completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + " totaling " + finalHours + " hours and " + finalMinutes + " minute.";
+                    completeLine = completeLine + " totaling " + finalHours + " hours and " + finalMinutes + " minute.";
                 }
             }
 
-            if (completeLine.length() != 0) {
+            if (completeLine.contains("totaling")) {
                 frameLines.add(completeLine);
             }
 
