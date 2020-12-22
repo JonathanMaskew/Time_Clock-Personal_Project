@@ -87,14 +87,8 @@ public class Database {
         BufferedReader accountBfr = new BufferedReader(new FileReader(accountFile));
         BufferedWriter accountBfw = new BufferedWriter(new FileWriter(accountFile, true));
 
-        System.out.println(username);
-        System.out.println(password);
-
         String line = accountBfr.readLine();
         while (line != null)    {
-            System.out.println(line.substring(line.indexOf(", ") + 2, line.lastIndexOf(", ")));
-            System.out.println(line.substring(line.lastIndexOf(", ") + 2));
-
             if (line.substring(line.indexOf(", ") + 2, line.lastIndexOf(", ")).equals(username) && line.substring(line.lastIndexOf(", ") + 2).equals(password))    {
                 return new Person(line.substring(0, line.indexOf(", ")), line.substring(line.indexOf(", ") + 2, line.lastIndexOf(", ")), line.substring(line.lastIndexOf(", ") + 2));
             }
@@ -165,20 +159,28 @@ public class Database {
             int finalHours = totalMinutes / 60;
             int finalMinutes = totalMinutes % 60;
 
-            completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + " totaling " + finalHours + " hours and " + finalMinutes + " minutes.";
+            if (finalHours == 0 && finalMinutes != 0) {
+                if (finalMinutes != 1) {
+                    completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + " totaling " + finalMinutes + " minutes.";
+                } else  {
+                    completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + " totaling " + finalMinutes + " minute.";
+                }
+            } else if (finalHours != 0 && finalMinutes == 0)   {
+                completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + " totaling " + finalHours + " hours.";
+            } else if (finalHours != 0 && finalMinutes != 0)  {
+                if (finalMinutes != 1) {
+                    completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + " totaling " + finalHours + " hours and " + finalMinutes + " minutes.";
+                } else  {
+                    completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + " totaling " + finalHours + " hours and " + finalMinutes + " minute.";
+                }
+            }
 
-            frameLines.add(completeLine);
+            if (completeLine.length() != 0) {
+                frameLines.add(completeLine);
+            }
 
             lineOne = bfr.readLine();
             lineTwo = bfr.readLine();
-
-            System.out.println(monthOne.substring(0, 3) + " and " + dateOne + " and " + yearOne);
-            System.out.println(monthTwo.substring(0, 3) + " and " + dateTwo + " and " + yearTwo);
-            System.out.println(dayOne + " and " + dayTwo);
-            System.out.println("Days Between: " + daysBetween);
-            System.out.println(timeOneInMin + " and " + timeTwoInMin);
-            System.out.println("Total Min: " + totalMinutes);
-            System.out.println(completeLine);
         }
         return frameLines;
     }
