@@ -229,13 +229,13 @@ public class TimeClock {
         Container southContent = new Container();
         southContent.setLayout(new GridLayout(1, 2));
         JButton toggleButton = new JButton();
-        boolean running = database.isRunning();
-        if (!running) {
+        String running = database.isRunning();
+        if (running == null) {
             toggleButton.setText("Start Clock");
             northLabel.setText("Hello, " + person.getName().substring(0, person.getName().indexOf(" ")) + ". Ready to clock in?");
         } else  {
             toggleButton.setText("Stop Clock");
-            northLabel.setText("Hello, " + person.getName().substring(0, person.getName().indexOf(" ")) + ". Your clock is currently running.");
+            northLabel.setText("Hello, " + person.getName().substring(0, person.getName().indexOf(" ")) + ". Your clock has been running since " + running + ".");
         }
         southContent.add(toggleButton);
         mainFrame.add(southContent, BorderLayout.SOUTH);
@@ -246,12 +246,13 @@ public class TimeClock {
         toggleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    boolean running = database.isRunning();
-                    if (!running) {
+                    String running = database.isRunning();
+                    if (running == null) {
                         database.startClock();
                         JOptionPane.showMessageDialog(null, "Your clock has been started!\nYou may close the program and return at any time to stop your clock.", "Clock Started", JOptionPane.INFORMATION_MESSAGE);
                         toggleButton.setText("Stop Clock");
-                        northLabel.setText("Your clock is currently running.");
+                        String stillRunning = database.isRunning();
+                        northLabel.setText("Your clock has been running since " + stillRunning + ".");
                         mainFrame.repaint();
                     } else  {
                         toggleButton.setText("Start Clock");

@@ -38,21 +38,36 @@ public class Database {
         bfw = new BufferedWriter(new FileWriter(file, true));
     }
 
-    public boolean isRunning() throws IOException {
+    public String isRunning() throws IOException {
         updateReadersAndWriters();
 
         String line = bfr.readLine();
         int totalLines = 0;
+        String runningSince = "";
+        String runningDate = ";";
 
         while (line != null)    {
             totalLines++;
+
+            runningDate = line.substring(line.indexOf(",") + 2, line.indexOf("/")).charAt(0) + line.substring(line.indexOf(",") + 3, line.indexOf(",") + 5).toLowerCase() + " " + line.substring(line.indexOf("/") + 1, line.lastIndexOf("/")) + ", " + line.substring(line.lastIndexOf("/") + 1, line.lastIndexOf(",")) + " at ";
+            runningSince = line.substring(line.lastIndexOf(", ") + 2);
+            if (Integer.parseInt(runningSince.substring(0, runningSince.indexOf(":"))) > 12)   {
+                runningSince = runningDate + Integer.toString(Integer.parseInt(runningSince.substring(0, runningSince.indexOf(":"))) - 12) + ":" + runningSince.substring(runningSince.indexOf(":") + 1) + "pm";
+            } else  {
+                runningSince = runningDate + Integer.toString(Integer.parseInt(runningSince.substring(0, runningSince.indexOf(":"))) - 12) + ":" + runningSince.substring(runningSince.indexOf(":") + 1) + "am";
+            }
+
+            if (runningSince.substring(runningSince.indexOf(":") + 1).length() == 1)    {
+                runningSince = runningDate + runningSince.substring(0, runningSince.indexOf(":")) + ":0" + runningSince.substring(runningSince.indexOf(":") + 2);
+            }
+
             line = bfr.readLine();
         }
 
         if (totalLines % 2 == 0)    {
-            return false;
+            return null;
         } else  {
-            return true;
+            return runningSince;
         }
     }
 
