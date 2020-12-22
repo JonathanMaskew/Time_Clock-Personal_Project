@@ -111,7 +111,7 @@ public class Database {
         String lineOne = bfr.readLine();
         String lineTwo = bfr.readLine();
 
-        while (lineOne != null)    {
+        while (lineTwo != null)    {
             String completeLine = "";
 
             int totalMinutes = 0;

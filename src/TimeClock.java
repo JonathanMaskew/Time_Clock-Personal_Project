@@ -150,7 +150,7 @@ public class TimeClock {
         Container centerContent = new Container();
         centerContent.setLayout(new GridLayout(0, 1));
         ArrayList<String> lines = database.getInformation(person.getUsername() + ".bin");
-        for (int i = 0; i < lines.size(); i++) {
+        for (int i = lines.size() - 1; i >= 0; i--) {
             JLabel label = new JLabel(lines.get(i));
             label.setHorizontalAlignment(SwingConstants.CENTER);
             centerContent.add(label);
@@ -161,7 +161,8 @@ public class TimeClock {
 
         Container northContent = new Container();
         northContent.setLayout(new FlowLayout());
-        northContent.add(new JLabel("Welcome, " + person.getName().substring(0, person.getName().indexOf(" ")) + "."));
+        JLabel northLabel = new JLabel("Hello, " + person.getName().substring(0, person.getName().indexOf(" ")) + ". Ready to clock in?");
+        northContent.add(northLabel);
         mainFrame.add(northContent, BorderLayout.NORTH);
 
         JPanel eastBlank = new JPanel();
@@ -192,8 +193,7 @@ public class TimeClock {
                     } else  {
                         toggleButton.setText("Start Clock");
                         database.stopClock();
-                        centerContent.add(new JLabel("Clock Running"), 0);
-                        mainFrame.repaint();
+                        northLabel.setText("Hello, " + person.getName().substring(0, person.getName().indexOf(" ")) + "Your clock is currently running.");
                     }
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
