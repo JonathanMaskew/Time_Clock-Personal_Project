@@ -41,6 +41,7 @@ While this is currently a working program, there are always things to improve up
 - Allow a user to edit entries (say they forgot to stop the clock).
 - Allow a user to delete their account.
 - Allow a user to edit their account information.
+- Account for seconds. For example, right now if someone clocks in at 4:15:50pm, one it hits 4:16:00, the program counts this as a minute, even though they were really only clocked in for 10 seconds.
 
 This list was last edited Dec 22, 2020.
 
