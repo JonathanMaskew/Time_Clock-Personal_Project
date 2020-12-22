@@ -66,6 +66,7 @@ public class TimeClock {
                     if (database.userExists(usernameField.getText(), password) != null)   {
                         loginFrame.dispose();
                         person = database.userExists(usernameField.getText(), password);
+                        loginFrame.dispose();
                         showMainFrame();
                     }
                 } catch (IOException ioException) {
