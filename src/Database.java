@@ -141,8 +141,9 @@ public class Database {
 
         while (lineTwo != null)    {
             String completeLine = "";
-
             int totalMinutes = 0;
+            boolean timeOnePm = false;
+            boolean timeTwoPm = false;
 
             int dayOne = Integer.parseInt(lineOne.substring(0, lineOne.indexOf(", ")));
             int dayTwo = Integer.parseInt(lineTwo.substring(0, lineTwo.indexOf(", ")));
@@ -179,6 +180,7 @@ public class Database {
             int finalTimeOneHours = timeOneInMin / 60;
             if (finalTimeOneHours > 12) {
                 finalTimeOneHours = finalTimeOneHours - 12;
+                timeOnePm = true;
             }
 
             String finalTimeOneMins = Integer.toString(timeOneInMin % 60);
@@ -189,6 +191,7 @@ public class Database {
             int finalTimeTwoHours = timeTwoInMin / 60;
             if (finalTimeTwoHours > 12) {
                 finalTimeTwoHours = finalTimeTwoHours - 12;
+                timeTwoPm = true;
             }
 
             String finalTimeTwoMins = Integer.toString(timeTwoInMin % 60);
@@ -200,9 +203,33 @@ public class Database {
             int finalMinutes = totalMinutes % 60;
 
             if (dateOne.equals(dateTwo))    {
-                completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " from " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + finalTimeTwoHours + ":" + finalTimeTwoMins;
+                if (timeOnePm) {
+                    if (timeTwoPm)  {
+                        completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " from " + finalTimeOneHours + ":" + finalTimeOneMins + "pm to " + finalTimeTwoHours + ":" + finalTimeTwoMins + "pm";
+                    } else  {
+                        completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " from " + finalTimeOneHours + ":" + finalTimeOneMins + "pm to " + finalTimeTwoHours + ":" + finalTimeTwoMins + "am";
+                    }
+                } else  {
+                    if (timeTwoPm) {
+                        completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " from " + finalTimeOneHours + ":" + finalTimeOneMins + "am to " + finalTimeTwoHours + ":" + finalTimeTwoMins + "pm";
+                    } else  {
+                        completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " from " + finalTimeOneHours + ":" + finalTimeOneMins + "am to " + finalTimeTwoHours + ":" + finalTimeTwoMins + "am";
+                    }
+                }
             } else  {
-                completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + " to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins;
+                if (timeOnePm) {
+                    if (timeTwoPm) {
+                        completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + "pm to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + "pm";
+                    } else  {
+                        completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + "pm to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + "am";
+                    }
+                } else  {
+                    if (timeTwoPm)  {
+                        completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + "am to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + "pm";
+                    } else  {
+                        completeLine = monthOne.charAt(0) + monthOne.substring(1, 3).toLowerCase() + " " + dateOne + ", " + yearOne + " at " + finalTimeOneHours + ":" + finalTimeOneMins + "am to " + monthTwo.charAt(0) + monthTwo.substring(1, 3).toLowerCase() + " " + dateTwo + ", " + yearTwo + " at " + finalTimeTwoHours + ":" + finalTimeTwoMins + "am";
+                    }
+                }
             }
 
             if (finalHours == 0 && finalMinutes != 0) {
