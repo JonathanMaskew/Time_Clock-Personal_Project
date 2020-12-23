@@ -192,7 +192,7 @@ public class TimeClock {
     private static void showMainFrame() throws IOException {
         JFrame mainFrame = new JFrame();
         mainFrame.setTitle("Time Clock");
-        mainFrame.setSize(600, 300);
+        mainFrame.setSize(600, 200);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         mainFrame.setLayout(new BorderLayout());
@@ -238,6 +238,9 @@ public class TimeClock {
             northLabel.setText("Hello, " + person.getName().substring(0, person.getName().indexOf(" ")) + ". Your clock has been running since " + running + ".");
         }
         southContent.add(toggleButton);
+
+        JButton clearButton = new JButton("Clear");
+        southContent.add(clearButton);
         mainFrame.add(southContent, BorderLayout.SOUTH);
 
         JPanel westBlank = new JPanel();
@@ -263,6 +266,22 @@ public class TimeClock {
                     }
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
+                }
+            }
+        });
+
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int response = JOptionPane.showConfirmDialog(null, "Are you sure you would like to clear all entries?\nNote that this will also stop a currently running clock.", "Confirm", JOptionPane.YES_NO_OPTION);
+                if (response == JOptionPane.YES_OPTION) {
+                    try {
+                        database.clear(person.getUsername() + ".bin");
+                        mainFrame.dispose();
+                        showMainFrame();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
                 }
             }
         });

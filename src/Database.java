@@ -27,8 +27,7 @@ public class Database {
         file = new File(filename);
         file.createNewFile();
 
-        bfr = new BufferedReader(new FileReader(file));
-        bfw = new BufferedWriter(new FileWriter(file, true));
+        updateReadersAndWriters();
 
         return calculateTimes();
     }
@@ -264,5 +263,14 @@ public class Database {
             lineTwo = bfr.readLine();
         }
         return frameLines;
+    }
+
+    public void clear(String filename) throws IOException {
+        file.delete();
+
+        file = new File(filename);
+        file.createNewFile();
+
+        updateReadersAndWriters();
     }
 }
