@@ -37,7 +37,7 @@ While this is currently a working program, there are always things to improve up
 - While it currently supports multiple accounts, only one person can be logged on at a time and it must be from the computer running the program. Add functionality to make program work with a server so that multiple people can log on at the same time from anywhere.
 - With the server, allow a supervisor or boss access to an employees time entries remotely. They cannot edit the users info, only view.
 - Show the total time the user has worked across all their entries.
-- Allow a user to remove/clear entries.
+- Allow a user to remove specific entries.
 - Allow a user to edit entries (say they forgot to stop the clock).
 - Allow a user to delete their account.
 - Allow a user to edit their account information.
